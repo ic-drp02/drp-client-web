@@ -18,6 +18,6 @@ deploy-staging:
   dependencies:
     - build
   script:
-    - cp build $HOME/drp-client-web-build
+    - cp -r build $HOME/drp-client-web-build
   tags:
     - deploy-staging
