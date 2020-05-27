@@ -13,8 +13,11 @@ build:
     paths:
       - build
 
-deploy:
+deploy-staging:
   stage: deploy
-  dependencies: build
+  dependencies:
+    - build
   script:
     - cp build $HOME/drp-client-web-build
+  tags:
+    - deploy-staging
