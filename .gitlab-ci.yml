@@ -20,5 +20,7 @@ deploy-staging:
   script:
     - rm -r $HOME/drp-client-web-build
     - cp -r build $HOME/drp-client-web-build
+  only:
+    - master
   tags:
     - deploy-staging
