@@ -1,0 +1,4 @@
+[submodule "drp-server"]
+	path = drp-server
+	url = https://github.com/ic-drp02/drp-server.git
+	branch = master
