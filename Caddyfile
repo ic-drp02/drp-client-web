@@ -1,0 +1,10 @@
+http://
+
+route /api/* {
+  uri            strip_prefix /api
+  reverse_proxy  {$API_SERVER}
+}
+
+file_server {
+    root /site
+}
