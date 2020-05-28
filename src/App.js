@@ -10,10 +10,10 @@ function App() {
     <>
       <AppBar position="static" color="default">
         <Toolbar>
-          <a href="#">
+          <span>
             <img height="24" src={logo} alt="" style={{ marginRight: 12 }} />
             <img height="24" src={logo_text} alt="" />
-          </a>
+          </span>
         </Toolbar>
       </AppBar>
       <div style={{ padding: 16 }}>
