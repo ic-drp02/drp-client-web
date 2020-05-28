@@ -1,25 +1,25 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+
+import logo from "./icon_logo.png";
+import logo_text from "./icon_text.png";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppBar position="static" color="default">
+        <Toolbar>
+          <a href="#">
+            <img height="24" src={logo} alt="" style={{ marginRight: 12 }} />
+            <img height="24" src={logo_text} alt="" />
+          </a>
+        </Toolbar>
+      </AppBar>
+      <div style={{ padding: 16 }}>
+        <Typography variant="h2">Hello, world!</Typography>
+      </div>
+    </>
   );
 }
 
