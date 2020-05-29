@@ -27,12 +27,14 @@ export default function App() {
               <SearchIcon />
             </IconButton>
             <Link to="/admin" style={{ textDecoration: "none" }}>
-              <Button variant="outlined">Admin Dashboard</Button>
+              <Button variant="outlined" color="primary">
+                Admin Dashboard
+              </Button>
             </Link>
           </section>
         </Toolbar>
       </AppBar>
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: 25 }}>
         <Switch>
           <Route path="/admin" component={Admin} />
           <Route path="/postupdate" component={PostUpdate} />

@@ -9,10 +9,14 @@ export default function Home() {
       <Typography variant="h5">Recently viewed</Typography>
       <Typography variant="h5">Latest updates</Typography>
       <Link to="/question" style={{ textDecoration: "none" }}>
-        <Button variant="contained">Ask a question</Button>
+        <Button variant="contained" color="primary">
+          Ask a question
+        </Button>
       </Link>
       <Link to="/postupdate" style={{ textDecoration: "none" }}>
-        <Button variant="contained">Post an update</Button>
+        <Button variant="contained" color="primary">
+          Post an update
+        </Button>
       </Link>
     </>
   );

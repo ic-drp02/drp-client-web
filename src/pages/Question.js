@@ -35,18 +35,20 @@ export default function Question() {
             className={styles.field}
             label="Query subject"
             variant="outlined"
+            required
           />
         </Grid>
         <Grid item>
           <TextField
             className={styles.field}
             label="Query"
-            multiline
-            rows={10}
             variant="outlined"
+            rows={10}
+            required
+            multiline
           />
         </Grid>
-        <Button variant="contained" className={styles.button}>
+        <Button variant="contained" className={styles.button} color="primary">
           Submit
         </Button>
       </Grid>
