@@ -14,9 +14,9 @@ const useStyles = makeStyles({
 export default function CreatePost() {
   const styles = useStyles();
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} direction="column">
       <Typography variant="h2">Post an update</Typography>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
           label="Title"
@@ -24,14 +24,14 @@ export default function CreatePost() {
           required
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
           label="Summary"
           variant="outlined"
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
           label="Post Text"
@@ -41,10 +41,10 @@ export default function CreatePost() {
           multiline
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <RichTextEditor />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <Button variant="contained" color="primary">
           Post
         </Button>
