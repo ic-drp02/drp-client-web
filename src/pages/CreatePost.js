@@ -32,16 +32,6 @@ export default function CreatePost() {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          className={styles.field}
-          label="Post Text"
-          variant="outlined"
-          rows={10}
-          required
-          multiline
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
         <RichTextEditor />
       </Grid>
       <Grid item xs={12} md={6}>
