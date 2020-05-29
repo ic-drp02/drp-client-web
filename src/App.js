@@ -5,7 +5,7 @@ import { AppBar, Button, IconButton, Toolbar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Home from "./pages/Home.js";
 import Question from "./pages/Question.js";
-import PostUpdate from "./pages/PostUpdate.js";
+import CreatePost from "./pages/CreatePost.js";
 import Admin from "./pages/Admin.js";
 
 import logo from "./assets/icon_logo.png";
@@ -37,7 +37,7 @@ export default function App() {
       <div style={{ padding: 25 }}>
         <Switch>
           <Route path="/admin" component={Admin} />
-          <Route path="/postupdate" component={PostUpdate} />
+          <Route path="/posts/create" component={CreatePost} />
           <Route path="/question" component={Question} />
           <Route path="/" component={Home} />
         </Switch>

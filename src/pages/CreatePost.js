@@ -3,21 +3,18 @@ import React from "react";
 import { Typography, TextField, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import RichTextEditor from "../components/RichTextEditor";
+
 const useStyles = makeStyles({
   field: {
-    width: "35%",
-    marginTop: 25,
-  },
-  button: {
-    marginTop: 25,
+    width: "100%",
   },
 });
 
-export default function PostUpdate() {
+export default function CreatePost() {
   const styles = useStyles();
-
   return (
-    <Grid>
+    <Grid container spacing={2}>
       <Typography variant="h2">Post an update</Typography>
       <Grid item xs={12}>
         <TextField
@@ -27,14 +24,14 @@ export default function PostUpdate() {
           required
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <TextField
           className={styles.field}
           label="Summary"
           variant="outlined"
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <TextField
           className={styles.field}
           label="Post Text"
@@ -44,9 +41,14 @@ export default function PostUpdate() {
           multiline
         />
       </Grid>
-      <Button variant="contained" className={styles.button} color="primary">
-        Post
-      </Button>
+      <Grid item xs={12}>
+        <RichTextEditor />
+      </Grid>
+      <Grid item xs={12}>
+        <Button variant="contained" color="primary">
+          Post
+        </Button>
+      </Grid>
     </Grid>
   );
 }
