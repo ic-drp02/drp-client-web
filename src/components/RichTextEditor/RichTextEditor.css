@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+.ql-editor {
+  min-height: 200px;
+}
+
 .quill:hover .ql-toolbar {
   border-left-color: black;
   border-right-color: black;
