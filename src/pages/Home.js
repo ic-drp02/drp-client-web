@@ -1,0 +1,17 @@
+import React from "react";
+
+import { Link } from "react-router-dom";
+import { Button, Typography } from "@material-ui/core";
+
+export default function Home() {
+  return (
+    <>
+      <Link to="/question" style={{ textDecoration: "none" }}>
+        <Button variant="contained">Ask a question</Button>
+      </Link>
+      <Link to="/postupdate" style={{ textDecoration: "none" }}>
+        <Button variant="contained">Post an update</Button>
+      </Link>
+    </>
+  );
+}
