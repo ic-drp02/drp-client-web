@@ -15,7 +15,9 @@ export default function CreatePost() {
   const styles = useStyles();
   return (
     <Grid container spacing={2} direction="column">
-      <Typography variant="h2">Post an update</Typography>
+      <div style={{ margin: "16px 8px" }}>
+        <Typography variant="h2">Post an update</Typography>
+      </div>
       <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
