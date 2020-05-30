@@ -3,23 +3,22 @@ import React from "react";
 import { Typography, TextField, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import RichTextEditor from "../components/RichTextEditor";
+
 const useStyles = makeStyles({
   field: {
-    width: "35%",
-    marginTop: 25,
-  },
-  button: {
-    marginTop: 25,
+    width: "100%",
   },
 });
 
-export default function PostUpdate() {
+export default function CreatePost() {
   const styles = useStyles();
-
   return (
-    <Grid>
-      <Typography variant="h2">Post an update</Typography>
-      <Grid item xs={12}>
+    <Grid container spacing={2} direction="column">
+      <div style={{ margin: "16px 8px" }}>
+        <Typography variant="h2">Post an update</Typography>
+      </div>
+      <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
           label="Title"
@@ -27,26 +26,21 @@ export default function PostUpdate() {
           required
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12} md={6}>
         <TextField
           className={styles.field}
           label="Summary"
           variant="outlined"
         />
       </Grid>
-      <Grid item>
-        <TextField
-          className={styles.field}
-          label="Post Text"
-          variant="outlined"
-          rows={10}
-          required
-          multiline
-        />
+      <Grid item xs={12} md={6}>
+        <RichTextEditor />
       </Grid>
-      <Button variant="contained" className={styles.button} color="primary">
-        Post
-      </Button>
+      <Grid item xs={12} md={6}>
+        <Button variant="contained" color="primary">
+          Post
+        </Button>
+      </Grid>
     </Grid>
   );
 }

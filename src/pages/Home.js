@@ -34,7 +34,7 @@ export default function Home() {
             </Link>
           </Grid>
           <Grid item xs={6} md={12}>
-            <Link to="/postupdate" style={{ textDecoration: "none" }}>
+            <Link to="/posts/create" style={{ textDecoration: "none" }}>
               <Button
                 className={styles.button}
                 variant="contained"
