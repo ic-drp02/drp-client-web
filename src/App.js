@@ -14,7 +14,7 @@ import logo_text from "./assets/icon_text.png";
 export default function App() {
   return (
     <>
-      <AppBar position="static" color="default">
+      <AppBar position="sticky" color="default">
         <Toolbar>
           <Link to="/">
             <span>
