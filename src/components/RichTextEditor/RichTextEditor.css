@@ -26,7 +26,17 @@
   border-bottom-color: black;
 }
 
+.quill.active .ql-editor {
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-bottom: 11px;
+  min-height: 199px;
+}
+
 .quill.active .ql-toolbar {
+  padding-top: 7px;
+  padding-left: 7px;
+  padding-right: 7px;
   border-left-width: 2px;
   border-right-width: 2px;
   border-top-width: 2px;
