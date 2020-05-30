@@ -4,9 +4,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./RichTextEditor.css";
 
-export default function RichTextEditor(props) {
+export default function RichTextEditor({ onChange }) {
   const ref = useRef(null);
-  const [value, setValue] = useState("");
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
@@ -24,8 +23,7 @@ export default function RichTextEditor(props) {
     <div ref={ref}>
       <ReactQuill
         theme="snow"
-        value={value}
-        onChange={setValue}
+        onChange={onChange}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
       />
