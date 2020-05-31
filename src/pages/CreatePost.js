@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import {
   Typography,
@@ -10,6 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import RichTextEditor from "../components/RichTextEditor";
+import SnackbarContext from "../SnackbarContext";
 
 import * as api from "../api";
 
@@ -23,6 +25,8 @@ export default function CreatePost() {
   const styles = useStyles();
   const [state, setState] = useState({ title: "", summary: "", content: "" });
   const [loading, setLoading] = useState(false);
+  const snackbar = useContext(SnackbarContext);
+  const history = useHistory();
 
   const onPostButtonClick = useCallback(async () => {
     setLoading(true);
@@ -34,13 +38,12 @@ export default function CreatePost() {
     });
 
     if (res.success) {
-      //
+      history.push("/");
+      snackbar.show("Posted", 3000);
     } else {
       console.warn("Post creation failed with status code " + res.status);
     }
-
-    setLoading(false);
-  }, [state]);
+  }, [state, snackbar, history]);
 
   return (
     <Grid container spacing={2} direction="column">
