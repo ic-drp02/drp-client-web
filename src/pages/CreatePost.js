@@ -1,16 +1,19 @@
 import React, { useState, useCallback, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import {
-  Typography,
-  TextField,
-  Grid,
-  Button,
-  CircularProgress,
-} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Add as AddIcon } from "@material-ui/icons";
+import {
+  Button,
+  Chip,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 
 import RichTextEditor from "../components/RichTextEditor";
+import TagPickerDialog from "../components/TagPickerDialog";
 import SnackbarContext from "../SnackbarContext";
 
 import api from "../api";
@@ -19,12 +22,21 @@ const useStyles = makeStyles({
   field: {
     width: "100%",
   },
+  chip: {
+    margin: 4,
+  },
 });
 
 export default function CreatePost() {
   const styles = useStyles();
-  const [state, setState] = useState({ title: "", summary: "", content: "" });
+  const [state, setState] = useState({
+    title: "",
+    summary: "",
+    content: "",
+    tags: [],
+  });
   const [loading, setLoading] = useState(false);
+  const [showTagPicker, setShowTagPicker] = useState(false);
   const snackbar = useContext(SnackbarContext);
   const history = useHistory();
 
@@ -32,9 +44,8 @@ export default function CreatePost() {
     setLoading(true);
 
     const res = await api.createPost({
-      title: state.title,
-      summary: state.summary,
-      content: state.content,
+      ...state,
+      tags: state.tags.map((t) => t.name),
     });
 
     if (res.success) {
@@ -70,6 +81,45 @@ export default function CreatePost() {
       <Grid item xs={12} md={6}>
         <RichTextEditor
           onChange={(content) => setState({ ...state, content })}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        {state.tags.map((tag) => (
+          <Chip
+            key={tag.id}
+            label={tag.name}
+            variant="outlined"
+            className={styles.chip}
+            onClick={() => setShowTagPicker(true)}
+            onDelete={() =>
+              setState({
+                ...state,
+                tags: state.tags.filter((t) => t.id !== tag.id),
+              })
+            }
+          />
+        ))}
+        <Chip
+          icon={<AddIcon />}
+          label="Add tag"
+          color="primary"
+          className={styles.chip}
+          onClick={() => setShowTagPicker(true)}
+        />
+        <TagPickerDialog
+          visible={showTagPicker}
+          initialSelected={state.tags}
+          onDismiss={() => setShowTagPicker(false)}
+          onTagSelectionChange={(tag) => {
+            if (tag.selected) {
+              setState({ ...state, tags: [...state.tags, tag] });
+            } else {
+              setState({
+                ...state,
+                tags: state.tags.filter((t) => t.id !== tag.id),
+              });
+            }
+          }}
         />
       </Grid>
       <Grid item xs={12} md={6}>
