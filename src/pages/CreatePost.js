@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import RichTextEditor from "../components/RichTextEditor";
 import SnackbarContext from "../SnackbarContext";
 
-import * as api from "../api";
+import api from "../api";
 
 const useStyles = makeStyles({
   field: {
