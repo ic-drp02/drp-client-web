@@ -66,7 +66,7 @@ function TagPickerDialogContent({ initialSelected, onSelectionChange }) {
       setTags(tags);
       setMatches(tags);
     });
-  }, []);
+  }, [initialSelected]);
 
   if (tags === null) {
     return (
