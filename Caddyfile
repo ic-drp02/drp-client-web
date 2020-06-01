@@ -1,4 +1,4 @@
-http://
+https://{$HTTP_HOSTNAME}
 
 log {
   format console
