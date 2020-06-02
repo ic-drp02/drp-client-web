@@ -13,6 +13,11 @@ const useStyles = makeStyles({
     height: 50,
   },
   sectionTitle: { marginBottom: 20 },
+  sectionTitleWithButton: {
+    marginBottom: 20,
+    display: "flex",
+    justifyContent: "space-between",
+  },
 });
 
 export default function Home() {
@@ -51,8 +56,11 @@ export default function Home() {
           Recently viewed
         </Typography>
         <FileCard />
-        <Typography className={styles.sectionTitle} variant="h5">
+        <Typography className={styles.sectionTitleWithButton} variant="h5">
           Latest updates
+          <Link to="/posts" style={{ textDecoration: "none" }}>
+            <Button color="primary">View all</Button>
+          </Link>
         </Typography>
         <PostSummary />
         <PostSummary />
