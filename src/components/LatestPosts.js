@@ -41,7 +41,9 @@ export default function LatestPosts(props) {
     return <Typography>Could not find any posts!</Typography>;
   }
 
-  const shownUpdates = limit ? updates.slice(0, limit) : updates;
+  const shownUpdates = updates
+    .reverse()
+    .slice(0, limit ? limit : updates.length);
 
   const postSummaries = shownUpdates.map((update) => (
     <PostSummary
