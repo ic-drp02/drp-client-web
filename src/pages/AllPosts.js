@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography, Grid } from "@material-ui/core";
 
-import PostSummary from "../components/PostSummary.js";
+import LatestPosts from "../components/LatestPosts.js";
 
 export default function AllPosts() {
   return (
@@ -14,7 +14,7 @@ export default function AllPosts() {
         <Typography style={{ marginBottom: 20 }} variant="h5">
           All Updates
         </Typography>
-        <PostSummary />
+        <LatestPosts />
       </Grid>
     </Grid>
   );

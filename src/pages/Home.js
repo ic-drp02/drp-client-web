@@ -5,7 +5,7 @@ import { Button, Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import FileCard from "../components/FileCard.js";
-import PostSummary from "../components/PostSummary.js";
+import LatestPosts from "../components/LatestPosts.js";
 
 const useStyles = makeStyles({
   button: {
@@ -62,8 +62,7 @@ export default function Home() {
             <Button color="primary">View all</Button>
           </Link>
         </Typography>
-        <PostSummary />
-        <PostSummary />
+        <LatestPosts limit={2} />
       </Grid>
     </Grid>
   );
