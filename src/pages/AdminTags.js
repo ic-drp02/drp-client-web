@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Typography,
   Paper,
-  makeStyles,
   TableContainer,
   Table,
   TableHead,
@@ -15,10 +14,7 @@ import {
   Button,
 } from "@material-ui/core";
 
-import {
-  Delete as DeleteIcon,
-  Visibility as VisibilityIcon,
-} from "@material-ui/icons";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 
 import api from "../api";
 
