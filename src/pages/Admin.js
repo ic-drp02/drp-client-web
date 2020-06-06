@@ -40,7 +40,7 @@ export default function Admin() {
         label="Manage updates"
         link="/admin/updates"
       />
-      <Option icon={TagIcon} label="Manage tags" link="#" />
+      <Option icon={TagIcon} label="Manage tags" link="/admin/tags" />
       <Option icon={QuestionAnswerIcon} label="Manage questions" link="#" />
     </div>
   );
