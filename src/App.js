@@ -16,6 +16,9 @@ import CreatePost from "./pages/CreatePost.js";
 import Admin from "./pages/Admin.js";
 import AdminUpdates from "./pages/AdminUpdates.js";
 import AdminTags from "./pages/AdminTags";
+import AdminQuestions from "./pages/AdminQuestions";
+import AdminSites from "./pages/AdminSites.js";
+import AdminSubjects from "./pages/AdminSubjects.js";
 
 import logo from "./assets/icon_logo.png";
 import logo_text from "./assets/icon_text.png";
@@ -61,6 +64,9 @@ export default function App() {
         <Switch>
           <Route path="/admin/updates" component={AdminUpdates} />
           <Route path="/admin/tags" component={AdminTags} />
+          <Route path="/admin/questions/sites" component={AdminSites} />
+          <Route path="/admin/questions/subjects" component={AdminSubjects} />
+          <Route path="/admin/questions" component={AdminQuestions} />
           <Route path="/admin" component={Admin} />
           <Route path="/posts/create" component={CreatePost} />
           <Route path="/question" component={Question} />
