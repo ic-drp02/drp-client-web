@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Typography } from "@material-ui/core";
+import { Card, Typography, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -8,6 +8,10 @@ const useStyles = makeStyles({
     width: "100%",
     marginBottom: 10,
     padding: 10,
+  },
+  chip: {
+    marginRight: 10,
+    marginTop: 10,
   },
 });
 
@@ -22,7 +26,15 @@ export default function PostSummary(props) {
         {/* TODO: Use a different method for content? */}
         <div dangerouslySetInnerHTML={{ __html: props.content }} />
       </Typography>
-      {/* TODO: Display tags, author, time */}
+      {props.tags && props.tags.length > 0 ? (
+        props.tags.map((t) => (
+          <Chip label={t.name} color="primary" className={styles.chip} />
+        ))
+      ) : (
+        <></>
+      )}
+
+      {/* TODO: Display author, time */}
     </Card>
   );
 }
