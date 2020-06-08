@@ -62,7 +62,9 @@ export default function Home() {
             <Button color="primary">View all</Button>
           </Link>
         </Typography>
-        <LatestPosts limit={2} />
+        <div style={{ marginRight: 20 }}>
+          <LatestPosts limit={2} />
+        </div>
       </Grid>
     </Grid>
   );
