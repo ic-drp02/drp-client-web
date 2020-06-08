@@ -1,5 +1,6 @@
 import React from "react";
 
+import moment from "moment";
 import { Card, Typography, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,6 +14,14 @@ const useStyles = makeStyles({
     marginRight: 10,
     marginTop: 10,
   },
+  date: {
+    fontSize: 14,
+    color: "grey",
+  },
+  title: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 });
 
 export default function PostSummary(props) {
@@ -20,7 +29,10 @@ export default function PostSummary(props) {
 
   return (
     <Card elevation={2} className={styles.card}>
-      <Typography variant="h6">{props.title}</Typography>
+      <Typography variant="h6" className={styles.title}>
+        {props.title}
+        <div className={styles.date}>{moment(props.createdAt).fromNow()}</div>
+      </Typography>
       <Typography>{props.summary}</Typography>
       <Typography>
         {/* TODO: Use a different method for content? */}
@@ -33,8 +45,6 @@ export default function PostSummary(props) {
       ) : (
         <></>
       )}
-
-      {/* TODO: Display author, time */}
     </Card>
   );
 }
