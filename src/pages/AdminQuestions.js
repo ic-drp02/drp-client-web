@@ -16,10 +16,12 @@ import {
 import {
   Delete as DeleteIcon,
   Visibility as VisibilityIcon,
+  GetApp as GetAppIcon,
 } from "@material-ui/icons";
 
 import api from "../api";
 import { Link } from "react-router-dom";
+import { CSVLink } from "react-csv";
 
 export default function AdminQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -29,6 +31,14 @@ export default function AdminQuestions() {
       setQuestions(res.data);
     });
   }, []);
+
+  const headers = [
+    { label: "Site", key: "site.name" },
+    { label: "Grade", key: "grade" },
+    { label: "Specialty", key: "specialty" },
+    { label: "Subject", key: "subject.name" },
+    { label: "Question", key: "text" },
+  ];
 
   return (
     <div>
@@ -55,7 +65,22 @@ export default function AdminQuestions() {
         </Button>
       </div>
       <div style={{ marginTop: 56 }}>
-        <Typography variant="h4">Manage questions</Typography>
+        <Typography
+          variant="h4"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          Manage questions
+          <CSVLink
+            headers={headers}
+            data={questions}
+            filename={"questions.csv"}
+            style={{ textDecoration: "none" }}
+          >
+            <Button size="large" variant="outlined" startIcon={<GetAppIcon />}>
+              Download as CSV
+            </Button>
+          </CSVLink>
+        </Typography>
         <TableContainer component={Paper} style={{ marginTop: 24 }}>
           <Table>
             <TableHead>
