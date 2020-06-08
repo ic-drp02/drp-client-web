@@ -11,6 +11,7 @@ import {
   TableBody,
   IconButton,
   Button,
+  Checkbox,
 } from "@material-ui/core";
 
 import {
@@ -25,6 +26,7 @@ import { CSVLink } from "react-csv";
 
 export default function AdminQuestions() {
   const [questions, setQuestions] = useState([]);
+  const [questionIds, setQuestionIds] = useState([]);
 
   useEffect(() => {
     api.getQuestions().then((res) => {
@@ -39,6 +41,14 @@ export default function AdminQuestions() {
     { label: "Subject", key: "subject.name" },
     { label: "Question", key: "text" },
   ];
+
+  function handleChange(e, id) {
+    if (e.target.checked) {
+      setQuestionIds((questionIds) => [...questionIds, id]);
+    } else {
+      setQuestionIds((questionIds) => questionIds.filter((x) => x !== id));
+    }
+  }
 
   return (
     <div>
@@ -72,7 +82,7 @@ export default function AdminQuestions() {
           Manage questions
           <CSVLink
             headers={headers}
-            data={questions}
+            data={questions.filter((q) => new Set(questionIds).has(q.id))}
             filename={"questions.csv"}
             style={{ textDecoration: "none" }}
           >
@@ -85,17 +95,22 @@ export default function AdminQuestions() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Site</TableCell>
-                <TableCell>Grade</TableCell>
-                <TableCell>Specialty</TableCell>
-                <TableCell>Subject</TableCell>
-                <TableCell>Question</TableCell>
+                <TableCell>Select</TableCell>
+                {headers.map((h) => (
+                  <TableCell>{h.label}</TableCell>
+                ))}
                 <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {questions.map((question) => (
                 <TableRow key={question.id}>
+                  <TableCell>
+                    <Checkbox
+                      color="primary"
+                      onChange={(e) => handleChange(e, question.id)}
+                    ></Checkbox>
+                  </TableCell>
                   <TableCell>{question.site.name}</TableCell>
                   <TableCell>{question.grade}</TableCell>
                   <TableCell>{question.specialty}</TableCell>
