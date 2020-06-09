@@ -47,6 +47,7 @@ export default function LatestPosts(props) {
 
   const postSummaries = shownUpdates.map((update) => (
     <PostSummary
+      key={update.id}
       id={update.id}
       title={update.title}
       summary={update.summary}
