@@ -57,5 +57,5 @@ export default function LatestPosts(props) {
     />
   ));
 
-  return <>{postSummaries}</>;
+  return <div style={{ marginRight: 16 }}>{postSummaries}</div>;
 }

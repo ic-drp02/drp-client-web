@@ -52,11 +52,11 @@ export default function Home() {
         </Grid>
       </Grid>
       <Grid item xs={12} md={9}>
-        <Typography className={styles.sectionTitle} variant="h5">
+        {/* <Typography className={styles.sectionTitle} variant="h5">
           Recently viewed
         </Typography>
-        <FileCard />
-        <Typography className={styles.sectionTitleWithButton} variant="h5">
+        <FileCard /> */}
+        <Typography className={styles.sectionTitleWithButton} variant="h4">
           Latest updates
           {/* <Link to="/posts" style={{ textDecoration: "none" }}>
             <Button color="primary">View all</Button>
