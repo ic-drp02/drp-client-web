@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   card: {
     width: "100%",
-    marginBottom: 10,
+    marginBottom: 16,
     padding: 16,
   },
   chip: {
