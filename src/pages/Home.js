@@ -5,7 +5,7 @@ import { Button, Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import FileCard from "../components/FileCard.js";
-import PostSummary from "../components/PostSummary.js";
+import LatestPosts from "../components/LatestPosts.js";
 
 const useStyles = makeStyles({
   button: {
@@ -13,6 +13,11 @@ const useStyles = makeStyles({
     height: 50,
   },
   sectionTitle: { marginBottom: 20 },
+  sectionTitleWithButton: {
+    marginBottom: 20,
+    display: "flex",
+    justifyContent: "space-between",
+  },
 });
 
 export default function Home() {
@@ -51,11 +56,15 @@ export default function Home() {
           Recently viewed
         </Typography>
         <FileCard />
-        <Typography className={styles.sectionTitle} variant="h5">
+        <Typography className={styles.sectionTitleWithButton} variant="h5">
           Latest updates
+          <Link to="/posts" style={{ textDecoration: "none" }}>
+            <Button color="primary">View all</Button>
+          </Link>
         </Typography>
-        <PostSummary />
-        <PostSummary />
+        <div style={{ marginRight: 20 }}>
+          <LatestPosts limit={2} />
+        </div>
       </Grid>
     </Grid>
   );

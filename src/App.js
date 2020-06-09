@@ -13,6 +13,7 @@ import {
 import Home from "./pages/Home.js";
 import Question from "./pages/Question.js";
 import CreatePost from "./pages/CreatePost.js";
+import AllPosts from "./pages/AllPosts.js";
 import Admin from "./pages/Admin.js";
 import AdminUpdates from "./pages/AdminUpdates.js";
 import AdminTags from "./pages/AdminTags";
@@ -69,6 +70,7 @@ export default function App() {
           <Route path="/admin/questions" component={AdminQuestions} />
           <Route path="/admin" component={Admin} />
           <Route path="/posts/create" component={CreatePost} />
+          <Route path="/posts" component={AllPosts} />
           <Route path="/question" component={Question} />
           <Route path="/" component={Home} />
         </Switch>
