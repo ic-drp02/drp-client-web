@@ -58,12 +58,12 @@ export default function Home() {
         <FileCard />
         <Typography className={styles.sectionTitleWithButton} variant="h5">
           Latest updates
-          <Link to="/posts" style={{ textDecoration: "none" }}>
+          {/* <Link to="/posts" style={{ textDecoration: "none" }}>
             <Button color="primary">View all</Button>
-          </Link>
+          </Link> */}
         </Typography>
         <div style={{ marginRight: 20 }}>
-          <LatestPosts limit={2} />
+          <LatestPosts />
         </div>
       </Grid>
     </Grid>
