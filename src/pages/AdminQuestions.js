@@ -26,7 +26,7 @@ import { CSVLink } from "react-csv";
 
 export default function AdminQuestions() {
   const [questions, setQuestions] = useState([]);
-  const [questionIds, setQuestionIds] = useState([]);
+  const [selectedQs, setSelectedQs] = useState([]);
 
   useEffect(() => {
     api.getQuestions().then((res) => {
@@ -42,11 +42,21 @@ export default function AdminQuestions() {
     { label: "Question", key: "text" },
   ];
 
+  const allQuestionIds = questions.map((q) => q.id);
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      setSelectedQs(allQuestionIds);
+      return;
+    }
+    setSelectedQs([]);
+  };
+
   function handleChange(e, id) {
     if (e.target.checked) {
-      setQuestionIds((questionIds) => [...questionIds, id]);
+      setSelectedQs((selectedQs) => [...selectedQs, id]);
     } else {
-      setQuestionIds((questionIds) => questionIds.filter((x) => x !== id));
+      setSelectedQs((selectedQs) => selectedQs.filter((x) => x !== id));
     }
   }
 
@@ -80,24 +90,49 @@ export default function AdminQuestions() {
           style={{ display: "flex", justifyContent: "space-between" }}
         >
           Manage questions
-          <CSVLink
-            headers={headers}
-            data={questions.filter((q) => new Set(questionIds).has(q.id))}
-            filename={"questions.csv"}
-            style={{ textDecoration: "none" }}
-          >
-            <Button size="large" variant="outlined" startIcon={<GetAppIcon />}>
-              Download as CSV
-            </Button>
-          </CSVLink>
+          <div style={{ display: "flex" }}>
+            <Typography
+              variant="h6"
+              style={{ marginRight: 15, alignSelf: "center" }}
+            >
+              {selectedQs.length + " selected"}
+            </Typography>
+            <CSVLink
+              headers={headers}
+              data={questions.filter((q) => new Set(selectedQs).has(q.id))}
+              filename={"questions.csv"}
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                size="large"
+                variant="outlined"
+                startIcon={<GetAppIcon />}
+              >
+                Download as CSV
+              </Button>
+            </CSVLink>
+          </div>
         </Typography>
         <TableContainer component={Paper} style={{ marginTop: 24 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Select</TableCell>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    color="primary"
+                    indeterminate={
+                      selectedQs.length > 0 &&
+                      selectedQs.length < questions.length
+                    }
+                    checked={
+                      questions.length > 0 &&
+                      selectedQs.length === questions.length
+                    }
+                    onChange={handleSelectAllClick}
+                  ></Checkbox>
+                </TableCell>
                 {headers.map((h) => (
-                  <TableCell>{h.label}</TableCell>
+                  <TableCell key={h.key}>{h.label}</TableCell>
                 ))}
                 <TableCell align="right"></TableCell>
               </TableRow>
@@ -105,9 +140,10 @@ export default function AdminQuestions() {
             <TableBody>
               {questions.map((question) => (
                 <TableRow key={question.id}>
-                  <TableCell>
+                  <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
+                      checked={selectedQs.includes(question.id)}
                       onChange={(e) => handleChange(e, question.id)}
                     ></Checkbox>
                   </TableCell>
