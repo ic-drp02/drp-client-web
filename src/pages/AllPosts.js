@@ -11,8 +11,8 @@ export default function AllPosts() {
         {/* Filter Menu */}
       </Grid>
       <Grid item xs={12} md={9}>
-        <Typography style={{ marginBottom: 20 }} variant="h5">
-          All Updates
+        <Typography style={{ marginBottom: 20 }} variant="h4">
+          Updates
         </Typography>
         <LatestPosts />
       </Grid>

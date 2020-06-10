@@ -28,19 +28,23 @@ import logo_text from "./assets/icon_text.png";
 import AuthContext from "./AuthContext";
 import SnackbarContext from "./SnackbarContext";
 
-function AuthRoute({ component, ...rest }) {
+function AuthRoute({ component, admin, ...rest }) {
   const Component = component;
   const auth = useContext(AuthContext);
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        !!auth.user ? (
+      render={({ location }) => {
+        if (admin && auth.user.role !== "admin") {
+          return <Redirect to={{ pathname: "/" }} />;
+        }
+
+        return !!auth.user ? (
           <Component />
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        )
-      }
+        );
+      }}
     />
   );
 }
@@ -91,16 +95,25 @@ export default function App() {
         </AppBar>
         <div style={{ padding: 25 }}>
           <Switch>
-            <AuthRoute path="/admin/updates" component={AdminUpdates} />
-            <AuthRoute path="/admin/tags" component={AdminTags} />
-            <AuthRoute path="/admin/questions/sites" component={AdminSites} />
+            <AuthRoute admin path="/admin/updates" component={AdminUpdates} />
+            <AuthRoute admin path="/admin/tags" component={AdminTags} />
             <AuthRoute
+              admin
+              path="/admin/questions/sites"
+              component={AdminSites}
+            />
+            <AuthRoute
+              admin
               path="/admin/questions/subjects"
               component={AdminSubjects}
             />
-            <AuthRoute path="/admin/questions" component={AdminQuestions} />
-            <AuthRoute path="/admin" component={Admin} />
-            <AuthRoute path="/posts/create" component={CreatePost} />
+            <AuthRoute
+              admin
+              path="/admin/questions"
+              component={AdminQuestions}
+            />
+            <AuthRoute admin path="/admin" component={Admin} />
+            <AuthRoute admin path="/posts/create" component={CreatePost} />
             <AuthRoute path="/posts" component={AllPosts} />
             <AuthRoute path="/question" component={Question} />
             <Route path="/login" component={Login} />

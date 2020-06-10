@@ -91,6 +91,9 @@ export default function Login() {
       case "Unknown":
         errorMessage = error.message;
         break;
+
+      default:
+        errorMessage = "An error occurred while logging in.";
     }
   }
 
