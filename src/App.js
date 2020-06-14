@@ -39,7 +39,8 @@ function AuthRoute({ component, admin, ...rest }) {
           return <Redirect to={{ pathname: "/" }} />;
         }
 
-        return !!auth.user ? (
+        const currentTime = Date.now() / 1000;
+        return !!auth.user && currentTime < auth.user.expires ? (
           <Component />
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
@@ -50,7 +51,7 @@ function AuthRoute({ component, admin, ...rest }) {
 }
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
   const [snackbar, setSnackbar] = useState({
     open: false,
     show(message, duration) {

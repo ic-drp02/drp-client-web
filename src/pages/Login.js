@@ -55,7 +55,7 @@ export default function Login() {
     } catch {
       setError({
         type: "Unknown",
-        message: "An eerror occurred while communicating with the server.",
+        message: "An error occurred while communicating with the server.",
       });
     }
 
@@ -71,6 +71,7 @@ export default function Login() {
         });
       }
     } else {
+      sessionStorage.setItem("user", JSON.stringify(body));
       auth.setUser(body);
       history.replace("/");
     }
