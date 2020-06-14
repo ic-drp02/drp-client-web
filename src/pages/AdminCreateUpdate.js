@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Add as AddIcon } from "@material-ui/icons";
@@ -63,6 +63,18 @@ export default function AdminCreateUpdate() {
     setSupersedes(null);
   };
 
+  useEffect(() => {
+    if (supersedes) {
+      if (!state.title && !state.summary) {
+        setState({
+          ...state,
+          title: supersedes.title,
+          summary: supersedes.summary,
+        });
+      }
+    }
+  }, [supersedes]);
+
   const onPostButtonClick = useCallback(async () => {
     setLoading(true);
 
@@ -95,6 +107,7 @@ export default function AdminCreateUpdate() {
             <TextField
               style={styles.field}
               label="Title"
+              value={state.title}
               variant="outlined"
               required
               onChange={(e) => setState({ ...state, title: e.target.value })}
@@ -104,6 +117,7 @@ export default function AdminCreateUpdate() {
             <TextField
               style={styles.field}
               label="Summary"
+              value={state.summary}
               variant="outlined"
               onChange={(e) => setState({ ...state, summary: e.target.value })}
             />
