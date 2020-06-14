@@ -156,6 +156,15 @@ export default function Login() {
                 Login
               </Button>
             </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <a href="/auth/reset_password">
+                <Typography>Forgot password</Typography>
+              </a>
+            </Grid>
           </Grid>
         </Paper>
       </form>
