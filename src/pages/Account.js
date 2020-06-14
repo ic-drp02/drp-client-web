@@ -35,6 +35,11 @@ export default function AdminUpdates() {
   }, [user]);
 
   async function savePassword() {
+    if (newPassword !== null && confirmPassword === null) {
+      setConfirmPassword("");
+      return;
+    }
+
     if (
       !newPassword ||
       newPassword.length < 8 ||
