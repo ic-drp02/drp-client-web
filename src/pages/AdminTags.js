@@ -30,7 +30,7 @@ export default function AdminTags() {
 
   return (
     <div>
-      <Typography variant="h2">Tags</Typography>
+      <Typography variant="h3">Tags</Typography>
       <div style={{ marginTop: 56 }}>
         <Typography variant="h4">New tag </Typography>
         <form
