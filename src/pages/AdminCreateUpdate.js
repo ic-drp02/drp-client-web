@@ -68,6 +68,8 @@ export default function AdminCreateUpdate() {
 
     const res = await api.createPost({
       ...state,
+      is_guideline: guideline,
+      superseding: supersedes ? supersedes.id : undefined,
       tags: state.tags.map((t) => t.name),
     });
 
@@ -77,7 +79,7 @@ export default function AdminCreateUpdate() {
     } else {
       console.warn("Post creation failed with status code " + res.status);
     }
-  }, [state, snackbar, history]);
+  }, [state, guideline, supersedes, snackbar, history]);
 
   return (
     <Grid container spacing={4} direction="row">
