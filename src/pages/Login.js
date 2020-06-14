@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 import AuthContext from "../AuthContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles({
   card: {
@@ -36,6 +36,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  if (!!auth.user && Date.now() / 1000 < auth.user.expires) {
+    return <Redirect to="/" />;
+  }
 
   async function login(e) {
     e.preventDefault();

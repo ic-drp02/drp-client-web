@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CreatePost() {
+export default function AdminCreateUpdate() {
   const styles = useStyles();
   const [state, setState] = useState({
     title: "",
@@ -49,7 +49,7 @@ export default function CreatePost() {
     });
 
     if (res.success) {
-      history.push("/");
+      history.push("/admin/updates");
       snackbar.show("Posted", 3000);
     } else {
       console.warn("Post creation failed with status code " + res.status);
@@ -59,7 +59,7 @@ export default function CreatePost() {
   return (
     <Grid container spacing={2} direction="column">
       <div style={{ margin: "16px 8px" }}>
-        <Typography variant="h2">Post an update</Typography>
+        <Typography variant="h3">Post an update</Typography>
       </div>
       <Grid item xs={12} md={6}>
         <TextField

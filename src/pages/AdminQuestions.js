@@ -32,7 +32,7 @@ export default function AdminQuestions() {
 
   return (
     <div>
-      <Typography variant="h2">Questions</Typography>
+      <Typography variant="h3">Questions</Typography>
       <div style={{ marginTop: 48 }}>
         <Button
           variant="contained"

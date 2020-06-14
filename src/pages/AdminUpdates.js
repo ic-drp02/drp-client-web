@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import {
   Typography,
@@ -10,6 +11,7 @@ import {
   TableCell,
   TableBody,
   IconButton,
+  Button,
 } from "@material-ui/core";
 
 import {
@@ -20,6 +22,7 @@ import {
 import api from "../api";
 
 export default function AdminUpdates() {
+  const history = useHistory();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -30,7 +33,32 @@ export default function AdminUpdates() {
 
   return (
     <div>
-      <Typography variant="h2">Updates</Typography>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <Typography variant="h3">Updates</Typography>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push("/admin/updates/create")}
+          >
+            Post an update
+          </Button>
+        </div>
+      </div>
       <TableContainer component={Paper} style={{ marginTop: 24 }}>
         <Table>
           <TableHead>
