@@ -16,6 +16,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountIcon from "@material-ui/icons/AccountCircleOutlined";
+import EditIcon from "@material-ui/icons/EditOutlined";
 import AlarmIcon from "@material-ui/icons/NotificationsOutlined";
 import LabelIcon from "@material-ui/icons/LabelOutlined";
 import QuestionIcon from "@material-ui/icons/ContactSupportOutlined";
@@ -99,6 +100,15 @@ export default function AppFrame({ window, children }) {
         <>
           <Divider />
           <List subheader={<ListSubheader>Admin</ListSubheader>}>
+            <ListItem
+              button
+              onClick={drawerLinkHandler("/admin/updates/create")}
+            >
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary="Post update" />
+            </ListItem>
             <ListItem button onClick={drawerLinkHandler("/admin/updates")}>
               <ListItemIcon>
                 <AlarmIcon />
