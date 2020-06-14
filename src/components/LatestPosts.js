@@ -5,8 +5,7 @@ import { Typography, CircularProgress } from "@material-ui/core";
 import api from "../api";
 import PostSummary from "./PostSummary.js";
 
-export default function LatestPosts(props) {
-  const limit = props.limit;
+export default function LatestPosts({ limit }) {
   const [updates, setUpdates] = useState(undefined);
 
   async function updatePosts() {
