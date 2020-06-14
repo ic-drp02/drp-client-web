@@ -86,19 +86,15 @@ export default function AppFrame({ window, children }) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      {isUserAuthenticated(auth.user) && (
-        <>
-          <Divider />
-          <List>
-            <ListItem button onClick={drawerLinkHandler("/account")}>
-              <ListItemIcon>
-                <AccountIcon />
-              </ListItemIcon>
-              <ListItemText primary="Account" />
-            </ListItem>
-          </List>
-        </>
-      )}
+      <Divider />
+      <List>
+        <ListItem button onClick={drawerLinkHandler("/account")}>
+          <ListItemIcon>
+            <AccountIcon />
+          </ListItemIcon>
+          <ListItemText primary="Account" />
+        </ListItem>
+      </List>
       {isAdmin(auth.user) && (
         <>
           <Divider />
@@ -136,20 +132,28 @@ export default function AppFrame({ window, children }) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const showDrawer = isUserAuthenticated(auth.user);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" color="default" className={classes.appBar}>
+      <AppBar
+        position="fixed"
+        color="default"
+        className={showDrawer ? classes.appBar : ""}
+      >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
+          {showDrawer && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Link to="/">
             <span>
               <img height="24" src={logo} alt="" style={{ marginRight: 12 }} />
@@ -171,37 +175,39 @@ export default function AppFrame({ window, children }) {
           )}
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
+      {showDrawer && (
+        <nav className={classes.drawer}>
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === "rtl" ? "right" : "left"}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+      )}
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}

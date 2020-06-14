@@ -19,6 +19,8 @@ import AdminUsers from "./pages/AdminUsers";
 import AuthContext from "./AuthContext";
 import SnackbarContext from "./SnackbarContext";
 
+import { isUserAuthenticated } from "./auth";
+
 function AuthRoute({ component, admin, ...rest }) {
   const Component = component;
   const auth = useContext(AuthContext);
@@ -30,8 +32,7 @@ function AuthRoute({ component, admin, ...rest }) {
           return <Redirect to={{ pathname: "/" }} />;
         }
 
-        const currentTime = Date.now() / 1000;
-        return !!auth.user && currentTime < auth.user.expires ? (
+        return isUserAuthenticated(auth.user) ? (
           <Component />
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
@@ -83,7 +84,7 @@ export default function App() {
               component={AdminCreateUpdate}
             />
             <AuthRoute admin path="/admin/updates" component={AdminUpdates} />
-            <Route path="/account" component={Account} />
+            <AuthRoute path="/account" component={Account} />
             <Route path="/login" component={Login} />
             <AuthRoute path="/" component={Home} />
           </Switch>
