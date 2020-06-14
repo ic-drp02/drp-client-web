@@ -12,6 +12,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Toolbar from "@material-ui/core/Toolbar";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountIcon from "@material-ui/icons/AccountCircleOutlined";
@@ -26,7 +27,8 @@ import logo from "../assets/icon_logo.png";
 import logo_text from "../assets/icon_text.png";
 
 import AuthContext from "../AuthContext";
-import { ListSubheader } from "@material-ui/core";
+import { isUserAuthenticated, isAdmin } from "../auth";
+import { Button } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -84,7 +86,7 @@ export default function AppFrame({ window, children }) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      {!!auth.user && (
+      {isUserAuthenticated(auth.user) && (
         <>
           <Divider />
           <List>
@@ -97,7 +99,7 @@ export default function AppFrame({ window, children }) {
           </List>
         </>
       )}
-      {!!auth.user && auth.user.role === "admin" && (
+      {isAdmin(auth.user) && (
         <>
           <Divider />
           <List subheader={<ListSubheader>Admin</ListSubheader>}>
@@ -154,6 +156,19 @@ export default function AppFrame({ window, children }) {
               <img height="24" src={logo_text} alt="" />
             </span>
           </Link>
+          <div style={{ flexGrow: 1 }}></div>
+          {isUserAuthenticated(auth.user) && (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                auth.setUser(null);
+                sessionStorage.removeItem("user");
+              }}
+            >
+              Sign out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer}>
