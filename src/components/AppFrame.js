@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -29,7 +30,6 @@ import logo_text from "../assets/icon_text.png";
 
 import AuthContext from "../AuthContext";
 import { isUserAuthenticated, isAdmin } from "../auth";
-import { Button } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppFrame({ window, children }) {
   const history = useHistory();
+  const location = useLocation();
   const auth = useContext(AuthContext);
   const classes = useStyles();
   const theme = useTheme();
@@ -89,7 +90,11 @@ export default function AppFrame({ window, children }) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button onClick={drawerLinkHandler("/account")}>
+        <ListItem
+          button
+          selected={location.pathname === "/account"}
+          onClick={drawerLinkHandler("/account")}
+        >
           <ListItemIcon>
             <AccountIcon />
           </ListItemIcon>
@@ -102,6 +107,7 @@ export default function AppFrame({ window, children }) {
           <List subheader={<ListSubheader>Admin</ListSubheader>}>
             <ListItem
               button
+              selected={location.pathname === "/admin/updates/create"}
               onClick={drawerLinkHandler("/admin/updates/create")}
             >
               <ListItemIcon>
@@ -109,25 +115,41 @@ export default function AppFrame({ window, children }) {
               </ListItemIcon>
               <ListItemText primary="Post update" />
             </ListItem>
-            <ListItem button onClick={drawerLinkHandler("/admin/updates")}>
+            <ListItem
+              button
+              selected={location.pathname === "/admin/updates"}
+              onClick={drawerLinkHandler("/admin/updates")}
+            >
               <ListItemIcon>
                 <AlarmIcon />
               </ListItemIcon>
               <ListItemText primary="Updates" />
             </ListItem>
-            <ListItem button onClick={drawerLinkHandler("/admin/tags")}>
+            <ListItem
+              button
+              selected={location.pathname === "/admin/tags"}
+              onClick={drawerLinkHandler("/admin/tags")}
+            >
               <ListItemIcon>
                 <LabelIcon />
               </ListItemIcon>
               <ListItemText primary="Tags" />
             </ListItem>
-            <ListItem button onClick={drawerLinkHandler("/admin/questions")}>
+            <ListItem
+              button
+              selected={location.pathname === "/admin/questions"}
+              onClick={drawerLinkHandler("/admin/questions")}
+            >
               <ListItemIcon>
                 <QuestionIcon />
               </ListItemIcon>
               <ListItemText primary="Questions" />
             </ListItem>
-            <ListItem button onClick={drawerLinkHandler("/admin/users")}>
+            <ListItem
+              button
+              selected={location.pathname === "/admin/users"}
+              onClick={drawerLinkHandler("/admin/users")}
+            >
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
