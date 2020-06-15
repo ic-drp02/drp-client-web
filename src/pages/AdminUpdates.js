@@ -19,11 +19,13 @@ import {
   Visibility as VisibilityIcon,
 } from "@material-ui/icons";
 
+import UpdateDialog from "../components/UpdateDialog";
 import api from "../api";
 
 export default function AdminUpdates() {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     api.getPosts().then((res) => {
@@ -89,9 +91,14 @@ export default function AdminUpdates() {
                   >
                     <DeleteIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => setSelectedPost(post)}>
                     <VisibilityIcon />
                   </IconButton>
+
+                  <UpdateDialog
+                    selectedPost={selectedPost}
+                    onDismiss={() => setSelectedPost(null)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
