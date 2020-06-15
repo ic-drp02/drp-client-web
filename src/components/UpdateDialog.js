@@ -20,6 +20,7 @@ import {
 import GuidelineCard from "../components/GuidelineCard";
 import FileCard from "../components/FileCard";
 
+import moment from "moment";
 import api from "../api";
 
 export default function UpdateDialog({ selectedPost, onDismiss }) {
@@ -81,7 +82,8 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
 
   return (
     <Dialog
-      fullScreen
+      fullWidth
+      maxWidth={"lg"}
       open={selectedPost != null ? true : false}
       onClose={onDismiss}
     >
@@ -98,11 +100,13 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
         <Typography variant="h5">{selectedPost.summary}</Typography>
         <Chip
           icon={<DateRangeIcon />}
-          label={new Date(selectedPost.created_at).toDateString()}
+          label={moment(selectedPost.created_at).format(
+            "ddd, Do MMM YYYY, H:mm"
+          )}
           style={styles.date}
         ></Chip>
 
-        <Grid container spacing={3} direction="row">
+        <Grid container spacing={6} direction="row">
           <Grid item xs={12} md={6}>
             <Divider />
             <div
