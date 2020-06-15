@@ -8,7 +8,13 @@ import {
   Paper,
   makeStyles,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@material-ui/core";
+
+import { Alert } from "@material-ui/lab";
 
 import logo_full from "../assets/icon_full.png";
 
@@ -31,6 +37,69 @@ const useStyles = makeStyles({
   },
 });
 
+function InstallationDialog({ visible, onDismiss }) {
+  return (
+    <Dialog open={visible} onClose={onDismiss}>
+      <DialogTitle disableTypography>
+        <Typography variant="h5">Installation instructions</Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Typography variant="h6">Android</Typography>
+        <ol>
+          <li>
+            Install the Expo app from{" "}
+            <a
+              href="https://play.google.com/store/apps/details?id=host.exp.exponent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>
+            .
+          </li>
+          <li>
+            Open this link on your phone:{" "}
+            <a
+              href="https://expo.io/--/to-exp/exp%3A%2F%2Fexp.host%2F%40drp02.nhs%2Fdrp-client-mobile"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://expo.io/--/to-exp/exp%3A%2F%2Fexp.host%2F%40drp02.nhs%2Fdrp-client-mobile
+            </a>
+          </li>
+        </ol>
+        <Typography variant="h6">iOS</Typography>
+        <ol>
+          <li>
+            Install the Expo app from{" "}
+            <a href="https://apps.apple.com/app/apple-store/id982107779">
+              here
+            </a>
+            .
+          </li>
+          <li>On the bottom of the screen click the profile icon.</li>
+          <li>
+            Sign in with the following details:
+            <br />
+            <strong>Username:</strong> drp02.nhs
+            <br />
+            <strong>Password:</strong> 6xK7rxbbhT
+          </li>
+          <li>
+            Open <strong>drp-client-mobile</strong> under published projects to
+            launch the app.
+          </li>
+        </ol>
+      </DialogContent>
+      <DialogActions>
+        <Button color="primary" onClick={onDismiss}>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 export default function Login() {
   const classes = useStyles();
   const auth = useContext(AuthContext);
@@ -39,6 +108,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [showInstallation, setShowInstallation] = useState(false);
 
   if (!!auth.user && Date.now() / 1000 < auth.user.expires) {
     return <Redirect to="/" />;
@@ -86,6 +156,25 @@ export default function Login() {
         alignItems: "center",
       }}
     >
+      <Alert
+        severity="info"
+        style={{ cursor: "pointer" }}
+        onClick={() => setShowInstallation(true)}
+      >
+        <span
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <strong>16/06/2020 User Test</strong> - Click here for instructions on
+          how to install the app.
+        </span>
+      </Alert>
+      <InstallationDialog
+        visible={showInstallation}
+        onDismiss={() => setShowInstallation(false)}
+      />
       <form
         action="#"
         onSubmit={login}
