@@ -14,6 +14,7 @@ import {
 
 import RichTextEditor from "../components/RichTextEditor";
 import TagPickerDialog from "../components/TagPickerDialog";
+import FilePickerDialog from "../components/FilePickerDialog";
 import GuidelinePickerDialog from "../components/GuidelinePickerDialog";
 import GuidelineCard from "../components/GuidelineCard";
 import SnackbarContext from "../SnackbarContext";
@@ -39,9 +40,12 @@ export default function AdminCreateUpdate() {
     summary: "",
     content: "",
     tags: [],
+    files: [],
+    names: [],
   });
   const [loading, setLoading] = useState(false);
   const [showTagPicker, setShowTagPicker] = useState(false);
+  const [showFilePicker, setShowFilePicker] = useState(false);
   const [guideline, setGuideline] = useState(false);
   const [supersedes, setSupersedes] = useState(null);
   const [guidelinePicker, setGuidelinePicker] = useState(false);
@@ -235,6 +239,41 @@ export default function AdminCreateUpdate() {
       </Grid>
 
       {/* Post Button */}
+      <Grid item xs={12} md={6}>
+        {state.names.map((name, index) => (
+          <Chip
+            key={index}
+            label={name}
+            variant="outlined"
+            className={styles.chip}
+            onDelete={() =>
+              setState({
+                ...state,
+                files: state.files.filter((_, i) => i !== index),
+                names: state.names.filter((_, i) => i !== index),
+              })
+            }
+          />
+        ))}
+        <Chip
+          icon={<AddIcon />}
+          label="Add attachment"
+          color="primary"
+          className={styles.chip}
+          onClick={() => setShowFilePicker(true)}
+        />
+        <FilePickerDialog
+          visible={showFilePicker}
+          onDismiss={() => setShowFilePicker(false)}
+          onFileSelection={(file, name) =>
+            setState({
+              ...state,
+              files: [...state.files, file],
+              names: [...state.names, name],
+            })
+          }
+        />
+      </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={2} justify="flex-end">
           {loading && (
