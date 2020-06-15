@@ -94,17 +94,19 @@ export default function AdminUpdates() {
                   <IconButton onClick={() => setSelectedPost(post)}>
                     <VisibilityIcon />
                   </IconButton>
-
-                  <UpdateDialog
-                    selectedPost={selectedPost}
-                    onDismiss={() => setSelectedPost(null)}
-                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {selectedPost && (
+        <UpdateDialog
+          selectedPost={selectedPost}
+          onDismiss={() => setSelectedPost(null)}
+        />
+      )}
     </div>
   );
 }
