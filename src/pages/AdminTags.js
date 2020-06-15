@@ -120,22 +120,24 @@ function TagEditor({ id, name }) {
       }}
     >
       <TextField
+        fullWidth
         variant="standard"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      {value !== current && (
-        <Button
-          variant="outlined"
-          style={{ marginLeft: 16 }}
-          onClick={async () => {
-            await api.renameTag(id, value);
-            setCurrent(value);
-          }}
-        >
-          Save
-        </Button>
-      )}
+      <Button
+        variant="outlined"
+        style={{
+          marginLeft: 16,
+          visibility: value !== current ? "visible" : "hidden",
+        }}
+        onClick={async () => {
+          await api.renameTag(id, value);
+          setCurrent(value);
+        }}
+      >
+        Save
+      </Button>
     </div>
   );
 }
