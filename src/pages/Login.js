@@ -10,20 +10,22 @@ import {
   Button,
 } from "@material-ui/core";
 
+import logo_full from "../assets/icon_full.png";
+
 import AuthContext from "../AuthContext";
 import api from "../api";
 
 const useStyles = makeStyles({
-  card: {
+  adjustWidth: {
     width: 430,
   },
   "@media (max-width: 720px)": {
-    card: {
+    adjustWidth: {
       width: "60%",
     },
   },
   "@media (max-width: 480px)": {
-    card: {
+    adjustWidth: {
       width: "100%",
     },
   },
@@ -80,17 +82,45 @@ export default function Login() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        paddingTop: 24,
       }}
     >
-      <form action="#" onSubmit={login}>
-        <Paper style={{ padding: 16 }} className={classes.card}>
+      <form
+        action="#"
+        onSubmit={login}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 24,
+        }}
+      >
+        <Paper style={{ padding: 16 }} className={classes.adjustWidth}>
           <Grid container spacing={3} direction="column">
+            <Grid item xs={12} style={{ padding: 0 }}>
+              <div className={classes.adjustWidth}>
+                <img
+                  src={logo_full}
+                  alt=""
+                  style={{
+                    width: "calc(100% - 64px)",
+                    marginTop: 32,
+                    marginLeft: 32,
+                    marginRight: 32,
+                    marginBottom: 8,
+                  }}
+                />
+              </div>
+            </Grid>
             <Grid item xs={12}>
-              <Typography variant="h4" style={{ textAlign: "center" }}>
-                Login
+              <Typography variant="h5" style={{ textAlign: "center" }}>
+                Welcome to ICON, the Imperial Comms Network
+              </Typography>
+              <Typography style={{ textAlign: "center" }}>
+                A network facilitating clear communication with senior
+                management and easy access to trust guidelines
               </Typography>
             </Grid>
             {!!errorMessage && (
