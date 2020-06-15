@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import {
   Button,
-  Chip,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -10,6 +9,10 @@ import {
   DialogTitle,
   TextField,
   makeStyles,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
 } from "@material-ui/core";
 
 import api from "../api";
@@ -133,17 +136,23 @@ function TagPickerDialogContent({ initialSelected, onSelectionChange }) {
           </Button>
         )}
         <div className={styles.tagsContainer}>
-          {matches.map((tag) => (
-            <Chip
-              key={tag.id}
-              label={tag.name}
-              icon={tag.selected ? <DoneIcon /> : undefined}
-              onClick={() => onTagPress(tag)}
-              className={
-                styles.chip + (tag.selected ? " " + styles.selected : "")
-              }
-            />
-          ))}
+          <List>
+            {matches.map((tag) => (
+              <ListItem
+                key={tag.id}
+                button
+                selected={!!tag.selected}
+                onClick={() => onTagPress(tag)}
+              >
+                {tag.selected && (
+                  <ListItemIcon>
+                    <DoneIcon />
+                  </ListItemIcon>
+                )}
+                <ListItemText primary={tag.name} />
+              </ListItem>
+            ))}
+          </List>
         </div>
       </DialogContent>
     </>
