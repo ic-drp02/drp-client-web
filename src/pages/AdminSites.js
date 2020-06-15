@@ -30,7 +30,7 @@ export default function AdminSites() {
 
   return (
     <div>
-      <Typography variant="h2">Sites</Typography>
+      <Typography variant="h3">Sites</Typography>
       <div style={{ marginTop: 56 }}>
         <Typography variant="h4">New site</Typography>
         <form

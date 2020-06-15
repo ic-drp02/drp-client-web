@@ -30,7 +30,7 @@ export default function AdminTags() {
 
   return (
     <div>
-      <Typography variant="h2">Tags</Typography>
+      <Typography variant="h3">Tags</Typography>
       <div style={{ marginTop: 56 }}>
         <Typography variant="h4">New tag </Typography>
         <form
@@ -77,7 +77,9 @@ export default function AdminTags() {
             <TableBody>
               {tags.map((tag) => (
                 <TableRow key={tag.id}>
-                  <TableCell>{tag.name}</TableCell>
+                  <TableCell>
+                    <TagEditor id={tag.id} name={tag.name} />
+                  </TableCell>
                   <TableCell align="right">
                     <IconButton
                       onClick={() =>
@@ -97,6 +99,43 @@ export default function AdminTags() {
           </Table>
         </TableContainer>
       </div>
+    </div>
+  );
+}
+
+function TagEditor({ id, name }) {
+  const [current, setCurrent] = useState(name);
+  const [value, setValue] = useState(name);
+
+  useEffect(() => {
+    setValue(current);
+  }, [current]);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
+      <TextField
+        variant="standard"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      {value !== current && (
+        <Button
+          variant="outlined"
+          style={{ marginLeft: 16 }}
+          onClick={async () => {
+            await api.renameTag(id, value);
+            setCurrent(value);
+          }}
+        >
+          Save
+        </Button>
+      )}
     </div>
   );
 }
