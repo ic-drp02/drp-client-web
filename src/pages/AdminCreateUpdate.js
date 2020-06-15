@@ -95,7 +95,7 @@ export default function AdminCreateUpdate() {
     <Grid container spacing={4} direction="row">
       {/* Title */}
       <Grid item xs={12} md={12}>
-        <Typography variant="h2">Post an update</Typography>
+        <Typography variant="h3">Post an update</Typography>
       </Grid>
 
       {/* Text + Tags Form */}
