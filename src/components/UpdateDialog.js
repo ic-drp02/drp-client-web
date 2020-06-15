@@ -24,25 +24,26 @@ import api from "../api";
 export default function UpdateDialog({ selectedPost, onDismiss }) {
   const [revisions, setRevisions] = useState(null);
 
-  async function loadRevisions() {
-    try {
-      const reverse = true;
-      const res = await api.getGuidelineRevisions(selectedPost.id, reverse);
-      if (res.success) {
-        setRevisions(res.data);
-      } else {
-        console.warn(
-          "Failed to get guideline revisions with status " + res.status
-        );
-      }
-    } catch (error) {
-      console.warn(error);
-    }
-  }
-
   useEffect(() => {
-    loadRevisions();
-  }, []);
+    async function loadRevisions() {
+      try {
+        const reverse = true;
+        const res = await api.getGuidelineRevisions(selectedPost.id, reverse);
+        if (res.success) {
+          setRevisions(res.data);
+        } else {
+          console.warn(
+            "Failed to get guideline revisions with status " + res.status
+          );
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+    if (selectedPost.is_guideline) {
+      loadRevisions();
+    }
+  }, [selectedPost]);
 
   const styles = {
     closeButton: {
@@ -96,7 +97,7 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
           style={styles.date}
         ></Chip>
 
-        <Grid container spacing={2} direction="row">
+        <Grid container spacing={3} direction="row">
           <Grid item xs={12} md={6}>
             <Divider />
             <div
