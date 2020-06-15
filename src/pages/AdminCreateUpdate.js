@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Add as AddIcon } from "@material-ui/icons";
@@ -63,17 +63,15 @@ export default function AdminCreateUpdate() {
     setSupersedes(null);
   };
 
-  useEffect(() => {
-    if (supersedes) {
-      if (!state.title && !state.summary) {
-        setState({
-          ...state,
-          title: supersedes.title,
-          summary: supersedes.summary,
-        });
-      }
+  function handleAutoFill(guideline) {
+    if (!state.title && !state.summary) {
+      setState({
+        ...state,
+        title: guideline.title,
+        summary: guideline.summary,
+      });
     }
-  }, [supersedes]);
+  }
 
   const onPostButtonClick = useCallback(async () => {
     setLoading(true);
@@ -209,9 +207,10 @@ export default function AdminCreateUpdate() {
               setSupersedes(null);
               setGuidelinePicker(false);
             }}
-            onSelect={(post) => {
-              setSupersedes(post);
+            onSelect={(guideline) => {
+              setSupersedes(guideline);
               setGuidelinePicker(false);
+              handleAutoFill(guideline);
             }}
           ></GuidelinePickerDialog>
 
