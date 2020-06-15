@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory, Redirect } from "react-router-dom";
 
 import {
   Grid,
@@ -10,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import AuthContext from "../AuthContext";
-import { useHistory, Redirect } from "react-router-dom";
+import api from "../api";
 
 const useStyles = makeStyles({
   card: {
@@ -44,39 +45,12 @@ export default function Login() {
   async function login(e) {
     e.preventDefault();
 
-    let res;
-    try {
-      res = await fetch("/auth/authenticate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-    } catch {
-      setError({
-        type: "Unknown",
-        message: "An error occurred while communicating with the server.",
-      });
-    }
-
-    const body = await res.json();
-
-    if (res.status !== 200) {
-      if (!!body.type) {
-        setError(body);
-      } else {
-        setError({
-          type: "Unknown",
-          message: "An error occurred while trying to log in.",
-        });
-      }
+    const res = await api.authenticate(email, password);
+    if (!res.success) {
+      setError(res.error);
     } else {
-      sessionStorage.setItem("user", JSON.stringify(body));
-      auth.setUser(body);
+      sessionStorage.setItem("user", JSON.stringify(res.data));
+      auth.setUser(res.data);
       history.replace("/");
     }
   }

@@ -16,56 +16,27 @@ import {
 } from "@material-ui/core";
 
 import AuthContext from "../AuthContext";
+import api from "../api";
 
 async function getUsers(token) {
-  const res = await fetch("/api/users", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status !== 200) {
-    console.warn("failed to get users with status code " + res.status);
-    return null;
-  } else {
-    return await res.json();
-  }
+  const res = await api.getUsers();
+  return res.success ? res.data : null;
 }
 
 async function deleteUser(token, id) {
-  const res = await fetch(`/api/users/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status !== 204) {
+  const res = await api.deleteUser(id);
+  if (!res.success) {
     console.warn("failed to delete user with status code " + res.status);
-    return false;
-  } else {
-    return true;
   }
+  return res.success;
 }
 
 async function updateRole(token, id, role) {
-  const res = await fetch(`/api/users/${id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      role,
-    }),
-  });
-
-  if (res.status !== 200) {
+  const res = await api.updateUser(id, { role });
+  if (!res.success) {
     console.warn("failed to update user role with status code " + res.status);
-    return false;
-  } else {
-    return true;
   }
+  return res.success;
 }
 
 export default function AdminUsers() {

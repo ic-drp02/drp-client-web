@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 
 import AuthContext from "../AuthContext";
+import api from "../api";
 
 export default function AdminUpdates() {
   const { user } = useContext(AuthContext);
@@ -50,21 +51,9 @@ export default function AdminUpdates() {
 
     setSaving(true);
 
-    const res = await fetch(`/api/users/${user.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        password: newPassword,
-      }),
-    });
-
-    if (res.status !== 200) {
+    const res = await api.updateUser(user.id, { password: newPassword });
+    if (!res.success) {
       console.warn("request failed with status " + res.status);
-    } else {
-      // Show snackbar
     }
 
     setSaving(false);

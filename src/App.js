@@ -19,6 +19,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AuthContext from "./AuthContext";
 import SnackbarContext from "./SnackbarContext";
 
+import api from "./api";
 import { isUserAuthenticated, isAdmin } from "./auth";
 
 function AuthRoute({ component, admin, ...rest }) {
@@ -52,6 +53,10 @@ export default function App() {
       setSnackbar({ ...snackbar, open: true, message, duration });
     },
   });
+
+  if (!!user) {
+    api.setAuthToken(user.token);
+  }
 
   const hideSnackbar = useCallback(
     () => setSnackbar({ ...snackbar, open: false }),
