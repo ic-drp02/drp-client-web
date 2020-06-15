@@ -193,7 +193,7 @@ export default function AdminCreateUpdate() {
                 </Typography>
                 <Switch
                   color="primary"
-                  checked={supersedes}
+                  checked={supersedes != null ? true : false}
                   onChange={handleSupersededChange}
                 />
               </div>
