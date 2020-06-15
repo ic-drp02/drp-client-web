@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
 import { Add as AddIcon } from "@material-ui/icons";
 import {
   Button,
@@ -10,25 +9,31 @@ import {
   Grid,
   TextField,
   Typography,
+  Switch,
 } from "@material-ui/core";
 
 import RichTextEditor from "../components/RichTextEditor";
 import TagPickerDialog from "../components/TagPickerDialog";
+import GuidelinePickerDialog from "../components/GuidelinePickerDialog";
+import GuidelineCard from "../components/GuidelineCard";
 import SnackbarContext from "../SnackbarContext";
 
 import api from "../api";
 
-const useStyles = makeStyles({
+const styles = {
   field: {
     width: "100%",
   },
   chip: {
     margin: 4,
   },
-});
+  textWithSpace: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+};
 
 export default function AdminCreateUpdate() {
-  const styles = useStyles();
   const [state, setState] = useState({
     title: "",
     summary: "",
@@ -37,14 +42,44 @@ export default function AdminCreateUpdate() {
   });
   const [loading, setLoading] = useState(false);
   const [showTagPicker, setShowTagPicker] = useState(false);
+  const [guideline, setGuideline] = useState(false);
+  const [supersedes, setSupersedes] = useState(null);
+  const [guidelinePicker, setGuidelinePicker] = useState(false);
+
   const snackbar = useContext(SnackbarContext);
   const history = useHistory();
+
+  const handleGuidelineChange = () => {
+    setGuideline(!guideline);
+    setSupersedes(null);
+  };
+
+  const handleSupersededChange = () => {
+    if (!supersedes) {
+      setSupersedes(true);
+      setGuidelinePicker(true);
+      return;
+    }
+    setSupersedes(null);
+  };
+
+  function handleAutoFill(guideline) {
+    if (!state.title && !state.summary) {
+      setState({
+        ...state,
+        title: guideline.title,
+        summary: guideline.summary,
+      });
+    }
+  }
 
   const onPostButtonClick = useCallback(async () => {
     setLoading(true);
 
     const res = await api.createPost({
       ...state,
+      is_guideline: guideline,
+      superseding: supersedes ? supersedes.id : undefined,
       tags: state.tags.map((t) => t.name),
     });
 
@@ -54,74 +89,152 @@ export default function AdminCreateUpdate() {
     } else {
       console.warn("Post creation failed with status code " + res.status);
     }
-  }, [state, snackbar, history]);
+  }, [state, guideline, supersedes, snackbar, history]);
 
   return (
-    <Grid container spacing={2} direction="column">
-      <div style={{ margin: "16px 8px" }}>
-        <Typography variant="h3">Post an update</Typography>
-      </div>
-      <Grid item xs={12} md={6}>
-        <TextField
-          className={styles.field}
-          label="Title"
-          variant="outlined"
-          required
-          onChange={(e) => setState({ ...state, title: e.target.value })}
-        />
+    <Grid container spacing={4} direction="row">
+      {/* Title */}
+      <Grid item xs={12} md={12}>
+        <Typography variant="h2">Post an update</Typography>
       </Grid>
+
+      {/* Text + Tags Form */}
       <Grid item xs={12} md={6}>
-        <TextField
-          className={styles.field}
-          label="Summary"
-          variant="outlined"
-          onChange={(e) => setState({ ...state, summary: e.target.value })}
-        />
+        <Grid container spacing={3} direction="column">
+          <Grid item>
+            <TextField
+              style={styles.field}
+              label="Title"
+              value={state.title}
+              variant="outlined"
+              required
+              onChange={(e) => setState({ ...state, title: e.target.value })}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              style={styles.field}
+              label="Summary"
+              value={state.summary}
+              variant="outlined"
+              onChange={(e) => setState({ ...state, summary: e.target.value })}
+            />
+          </Grid>
+          <Grid item>
+            <RichTextEditor
+              onChange={(content) => setState({ ...state, content })}
+            />
+          </Grid>
+          <Grid item>
+            {state.tags.map((tag) => (
+              <Chip
+                key={tag.id}
+                label={tag.name}
+                variant="outlined"
+                style={styles.chip}
+                onClick={() => setShowTagPicker(true)}
+                onDelete={() =>
+                  setState({
+                    ...state,
+                    tags: state.tags.filter((t) => t.id !== tag.id),
+                  })
+                }
+              />
+            ))}
+            <Chip
+              icon={<AddIcon />}
+              label="Add tag"
+              color="primary"
+              style={styles.chip}
+              onClick={() => setShowTagPicker(true)}
+            />
+            <TagPickerDialog
+              visible={showTagPicker}
+              initialSelected={state.tags}
+              onDismiss={() => setShowTagPicker(false)}
+              onTagSelectionChange={(tag) => {
+                if (tag.selected) {
+                  setState({ ...state, tags: [...state.tags, tag] });
+                } else {
+                  setState({
+                    ...state,
+                    tags: state.tags.filter((t) => t.id !== tag.id),
+                  });
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <RichTextEditor
-          onChange={(content) => setState({ ...state, content })}
-        />
+
+      {/* Guideline Options */}
+      <Grid item xs={12} md={4}>
+        <Grid container spacing={2} direction="column">
+          {/* Guideline Check */}
+          <Grid item>
+            <div style={styles.textWithSpace}>
+              <Typography style={{ alignSelf: "center" }}>
+                Is this a guideline?
+              </Typography>
+              <Switch
+                color="primary"
+                checked={guideline}
+                onChange={handleGuidelineChange}
+              />
+            </div>
+          </Grid>
+
+          {/* Superseded guideline check */}
+          {guideline && (
+            <Grid item>
+              <div style={styles.textWithSpace}>
+                <Typography style={{ alignSelf: "center" }}>
+                  Does this supersede an old guideline?
+                </Typography>
+                <Switch
+                  color="primary"
+                  checked={supersedes != null ? true : false}
+                  onChange={handleSupersededChange}
+                />
+              </div>
+            </Grid>
+          )}
+
+          {/* Superseded guideline picker */}
+          <GuidelinePickerDialog
+            visible={guidelinePicker}
+            onDismiss={() => {
+              setSupersedes(null);
+              setGuidelinePicker(false);
+            }}
+            onSelect={(guideline) => {
+              setSupersedes(guideline);
+              setGuidelinePicker(false);
+              handleAutoFill(guideline);
+            }}
+          ></GuidelinePickerDialog>
+
+          {/* Superseded guideline view */}
+          <Grid item>
+            {guideline && supersedes != null ? (
+              <div>
+                <Typography style={{ marginBottom: 15 }}>
+                  This guideline will supersede:
+                </Typography>
+                <GuidelineCard
+                  guideline={supersedes}
+                  showRemove
+                  onRemove={() => setSupersedes(null)}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={6}>
-        {state.tags.map((tag) => (
-          <Chip
-            key={tag.id}
-            label={tag.name}
-            variant="outlined"
-            className={styles.chip}
-            onClick={() => setShowTagPicker(true)}
-            onDelete={() =>
-              setState({
-                ...state,
-                tags: state.tags.filter((t) => t.id !== tag.id),
-              })
-            }
-          />
-        ))}
-        <Chip
-          icon={<AddIcon />}
-          label="Add tag"
-          color="primary"
-          className={styles.chip}
-          onClick={() => setShowTagPicker(true)}
-        />
-        <TagPickerDialog
-          visible={showTagPicker}
-          initialSelected={state.tags}
-          onDismiss={() => setShowTagPicker(false)}
-          onTagSelectionChange={(tag) => {
-            if (tag.selected) {
-              setState({ ...state, tags: [...state.tags, tag] });
-            } else {
-              setState({
-                ...state,
-                tags: state.tags.filter((t) => t.id !== tag.id),
-              });
-            }
-          }}
-        />
-      </Grid>
+
+      {/* Post Button */}
       <Grid item xs={12} md={6}>
         <Grid container spacing={2} justify="flex-end">
           {loading && (
