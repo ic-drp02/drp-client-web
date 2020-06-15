@@ -129,16 +129,7 @@ function TagEditor({ id, name }) {
           variant="outlined"
           style={{ marginLeft: 16 }}
           onClick={async () => {
-            await fetch("/api/tags/" + id, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name: value,
-              }),
-            });
-
+            await api.renameTag(id, value);
             setCurrent(value);
           }}
         >
