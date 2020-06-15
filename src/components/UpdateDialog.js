@@ -18,6 +18,7 @@ import {
 } from "@material-ui/icons";
 
 import GuidelineCard from "../components/GuidelineCard";
+import FileCard from "../components/FileCard";
 
 import api from "../api";
 
@@ -63,6 +64,10 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
     tag: {
       marginTop: 10,
       marginRight: 5,
+    },
+    attachText: {
+      marginTop: 10,
+      marginBottom: 10,
     },
     lineCenter: {
       display: "flex",
@@ -113,6 +118,16 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
                 color="primary"
               ></Chip>
             ))}
+            {selectedPost.files.length !== 0 && (
+              <div>
+                <Typography style={styles.attachText}>
+                  Attached files:
+                </Typography>
+                {selectedPost.files.map((file) => (
+                  <FileCard key={file.id} file={file} />
+                ))}
+              </div>
+            )}
           </Grid>
           <Grid item xs={12} md={4}>
             {/* If revisions exist then show them */}
