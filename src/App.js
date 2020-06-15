@@ -19,7 +19,8 @@ import AdminUsers from "./pages/AdminUsers";
 import AuthContext from "./AuthContext";
 import SnackbarContext from "./SnackbarContext";
 
-import { isUserAuthenticated } from "./auth";
+import api from "./api";
+import { isUserAuthenticated, isAdmin } from "./auth";
 
 function AuthRoute({ component, admin, ...rest }) {
   const Component = component;
@@ -28,15 +29,17 @@ function AuthRoute({ component, admin, ...rest }) {
     <Route
       {...rest}
       render={({ location }) => {
-        if (admin && auth.user.role !== "admin") {
+        if (!isUserAuthenticated(auth.user)) {
+          return (
+            <Redirect to={{ pathname: "/login", state: { from: location } }} />
+          );
+        }
+
+        if (!isAdmin(auth.user)) {
           return <Redirect to={{ pathname: "/" }} />;
         }
 
-        return isUserAuthenticated(auth.user) ? (
-          <Component />
-        ) : (
-          <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        );
+        return <Component />;
       }}
     />
   );
@@ -50,6 +53,10 @@ export default function App() {
       setSnackbar({ ...snackbar, open: true, message, duration });
     },
   });
+
+  if (!!user) {
+    api.setAuthToken(user.token);
+  }
 
   const hideSnackbar = useCallback(
     () => setSnackbar({ ...snackbar, open: false }),
