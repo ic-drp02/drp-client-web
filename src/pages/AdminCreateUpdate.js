@@ -168,6 +168,41 @@ export default function AdminCreateUpdate() {
               }}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            {state.names.map((name, index) => (
+              <Chip
+                key={index}
+                label={name}
+                variant="outlined"
+                style={styles.chip}
+                onDelete={() =>
+                  setState({
+                    ...state,
+                    files: state.files.filter((_, i) => i !== index),
+                    names: state.names.filter((_, i) => i !== index),
+                  })
+                }
+              />
+            ))}
+            <Chip
+              icon={<AddIcon />}
+              label="Add attachment"
+              color="primary"
+              style={styles.chip}
+              onClick={() => setShowFilePicker(true)}
+            />
+            <FilePickerDialog
+              visible={showFilePicker}
+              onDismiss={() => setShowFilePicker(false)}
+              onFileSelection={(file, name) =>
+                setState({
+                  ...state,
+                  files: [...state.files, file],
+                  names: [...state.names, name],
+                })
+              }
+            />
+          </Grid>
         </Grid>
       </Grid>
 
@@ -239,41 +274,6 @@ export default function AdminCreateUpdate() {
       </Grid>
 
       {/* Post Button */}
-      <Grid item xs={12} md={6}>
-        {state.names.map((name, index) => (
-          <Chip
-            key={index}
-            label={name}
-            variant="outlined"
-            className={styles.chip}
-            onDelete={() =>
-              setState({
-                ...state,
-                files: state.files.filter((_, i) => i !== index),
-                names: state.names.filter((_, i) => i !== index),
-              })
-            }
-          />
-        ))}
-        <Chip
-          icon={<AddIcon />}
-          label="Add attachment"
-          color="primary"
-          className={styles.chip}
-          onClick={() => setShowFilePicker(true)}
-        />
-        <FilePickerDialog
-          visible={showFilePicker}
-          onDismiss={() => setShowFilePicker(false)}
-          onFileSelection={(file, name) =>
-            setState({
-              ...state,
-              files: [...state.files, file],
-              names: [...state.names, name],
-            })
-          }
-        />
-      </Grid>
       <Grid item xs={12} md={6}>
         <Grid container spacing={2} justify="flex-end">
           {loading && (

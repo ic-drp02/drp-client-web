@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import {
   Button,
   Dialog,
-  Input,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -60,9 +60,10 @@ export default function FilePickerDialog({
     >
       <DialogTitle>Add attachment</DialogTitle>
       <DialogContent>
-        <Input
+        <input
+          style={{ display: "none" }}
+          id="contained-button-file"
           type="file"
-          fullWidth
           onChange={(event) => {
             let files = event.target.files;
             if (files.length === 1) {
@@ -72,6 +73,18 @@ export default function FilePickerDialog({
             }
           }}
         />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" color="primary" component="span">
+              Select file
+            </Button>
+          </label>
+          <div
+            style={{ display: "flex", alignItems: "center", marginLeft: 16 }}
+          >
+            <Typography>{file && file.name}</Typography>
+          </div>
+        </div>
         <TextField
           className={styles.field}
           fullWidth
