@@ -31,7 +31,7 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
     async function loadRevisions() {
       try {
         const reverse = true;
-        const res = await api.getGuidelineRevisions(post.id, reverse);
+        const res = await api.getRevisions(selectedPost.id, reverse);
         if (res.success) {
           setRevisions(res.data);
         } else {
@@ -43,10 +43,10 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
         console.warn(error);
       }
     }
-    if (post.is_guideline) {
+    if (selectedPost.is_guideline) {
       loadRevisions();
     }
-  }, [post]);
+  }, [selectedPost]);
 
   const styles = {
     closeButton: {
