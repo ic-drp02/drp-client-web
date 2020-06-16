@@ -13,6 +13,7 @@ export default function FileCard({ file }) {
       backgroundColor: "#2f80ed",
       color: "white",
       maxWidth: 500,
+      marginBottom: 15,
     },
     button: {
       color: "white",
