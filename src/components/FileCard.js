@@ -20,7 +20,6 @@ export default function FileCard({ file }) {
     },
     name: {
       padding: 10,
-      textAlign: "center",
     },
     rightAlign: {
       display: "flex",

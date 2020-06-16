@@ -25,12 +25,13 @@ import api from "../api";
 
 export default function UpdateDialog({ selectedPost, onDismiss }) {
   const [revisions, setRevisions] = useState(null);
+  const [post, setPost] = useState(selectedPost);
 
   useEffect(() => {
     async function loadRevisions() {
       try {
         const reverse = true;
-        const res = await api.getGuidelineRevisions(selectedPost.id, reverse);
+        const res = await api.getGuidelineRevisions(post.id, reverse);
         if (res.success) {
           setRevisions(res.data);
         } else {
@@ -42,10 +43,10 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
         console.warn(error);
       }
     }
-    if (selectedPost.is_guideline) {
+    if (post.is_guideline) {
       loadRevisions();
     }
-  }, [selectedPost]);
+  }, [post]);
 
   const styles = {
     closeButton: {
@@ -84,7 +85,7 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
     <Dialog
       fullWidth
       maxWidth={"lg"}
-      open={selectedPost != null ? true : false}
+      open={post != null ? true : false}
       onClose={onDismiss}
     >
       <AppBar position="relative">
@@ -96,13 +97,11 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
         </Toolbar>
       </AppBar>
       <DialogContent style={styles.content}>
-        <Typography variant="h4">{selectedPost.title}</Typography>
-        <Typography variant="h5">{selectedPost.summary}</Typography>
+        <Typography variant="h4">{post.title}</Typography>
+        <Typography variant="h5">{post.summary}</Typography>
         <Chip
           icon={<DateRangeIcon />}
-          label={moment(selectedPost.created_at).format(
-            "ddd, Do MMM YYYY, H:mm"
-          )}
+          label={moment(post.created_at).format("ddd, Do MMM YYYY, H:mm")}
           style={styles.date}
         ></Chip>
 
@@ -111,10 +110,10 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
             <Divider />
             <div
               dangerouslySetInnerHTML={{
-                __html: selectedPost.content,
+                __html: post.content,
               }}
             ></div>
-            {selectedPost.tags.map((tag) => (
+            {post.tags.map((tag) => (
               <Chip
                 key={tag.id}
                 label={tag.name}
@@ -122,12 +121,12 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
                 color="primary"
               ></Chip>
             ))}
-            {selectedPost.files.length !== 0 && (
+            {post.files.length !== 0 && (
               <div>
                 <Typography style={styles.attachText}>
                   Attached files:
                 </Typography>
-                {selectedPost.files.map((file) => (
+                {post.files.map((file) => (
                   <FileCard key={file.id} file={file} />
                 ))}
               </div>
@@ -142,7 +141,11 @@ export default function UpdateDialog({ selectedPost, onDismiss }) {
                 </Typography>
                 {revisions.map((r, index) => (
                   <div key={index}>
-                    <GuidelineCard guideline={r} />
+                    <GuidelineCard
+                      guideline={r}
+                      clickable
+                      onCardPress={() => setPost(r)}
+                    />
 
                     {/* Check if not last */}
                     {revisions[index + 1] && (
