@@ -83,7 +83,7 @@ export default function AdminCreateUpdate() {
     const res = await api.createPost({
       ...state,
       is_guideline: guideline,
-      superseding: supersedes ? supersedes.id : undefined,
+      updates: supersedes ? supersedes.id : undefined,
       tags: state.tags.map((t) => t.name),
     });
 
