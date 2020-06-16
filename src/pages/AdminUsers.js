@@ -62,7 +62,13 @@ export default function AdminUsers() {
         <LinearProgress style={{ marginBottom: 16 }} />
       ) : (
         <>
-          <Typography variant="h3">Users</Typography>
+          <Typography variant="h3" gutterBottom>
+            Users
+          </Typography>
+          <Typography variant="body1">
+            On this page, you can view all the users that are registered in the
+            ICON application, change their privilages or delete them.
+          </Typography>
           <TableContainer component={Paper} style={{ marginTop: 24 }}>
             <Table>
               <TableHead>

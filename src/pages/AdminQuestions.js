@@ -62,7 +62,15 @@ export default function AdminQuestions() {
 
   return (
     <div>
-      <Typography variant="h3">Questions</Typography>
+      <Typography variant="h3" gutterBottom>
+        Questions
+      </Typography>
+      <Typography variant="body1">
+        On this page, you can view all questions submitted by the users of the
+        ICON application, delete them or export them as a CSV file compatible
+        with the most common spreadsheet software including MS Excel and
+        LibreOffice Calc.
+      </Typography>
       <div style={{ marginTop: 48 }}>
         <Button
           variant="contained"
@@ -72,7 +80,7 @@ export default function AdminQuestions() {
           size="large"
           style={{ marginRight: 16 }}
         >
-          Manage sites
+          Manage hospital sites
         </Button>
         <Button
           variant="contained"
@@ -81,7 +89,7 @@ export default function AdminQuestions() {
           to="/admin/questions/subjects"
           size="large"
         >
-          Manage subjects
+          Manage question subjects
         </Button>
       </div>
       <div style={{ marginTop: 56 }}>

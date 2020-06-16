@@ -30,7 +30,13 @@ export default function AdminSites() {
 
   return (
     <div>
-      <Typography variant="h3">Subjects</Typography>
+      <Typography variant="h3" gutterBottom>
+        Subjects
+      </Typography>
+      <Typography variant="body1">
+        On this page, you can view, add and delete question subjects that will
+        then be available for selection in the questions form.
+      </Typography>
       <div style={{ marginTop: 56 }}>
         <Typography variant="h4">New subject</Typography>
         <form
