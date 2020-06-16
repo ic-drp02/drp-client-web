@@ -43,7 +43,14 @@ export default function AdminUpdates() {
         }}
       >
         <div>
-          <Typography variant="h3">Updates</Typography>
+          <Typography variant="h3" gutterBottom>
+            Updates
+          </Typography>
+          <Typography variant="body1">
+            On this page, you can see all the posts and guidelines that exist in
+            the application, view their content and revision history or delete
+            them.
+          </Typography>
         </div>
         <div
           style={{

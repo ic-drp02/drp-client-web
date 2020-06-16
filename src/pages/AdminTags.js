@@ -30,7 +30,13 @@ export default function AdminTags() {
 
   return (
     <div>
-      <Typography variant="h3">Tags</Typography>
+      <Typography variant="h3" gutterBottom>
+        Tags
+      </Typography>
+      <Typography variant="body1">
+        On this page, you can view, add, rename and delete tags that can be used
+        to sort the posts and guidelines into categories.
+      </Typography>
       <div style={{ marginTop: 56 }}>
         <Typography variant="h4">New tag </Typography>
         <form
