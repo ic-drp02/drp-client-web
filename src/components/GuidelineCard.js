@@ -6,7 +6,10 @@ import {
   Button,
   CardActionArea,
 } from "@material-ui/core";
+
 import DateRangeIcon from "@material-ui/icons/DateRange";
+
+import moment from "moment";
 
 export default function GuidelineCard({
   guideline,
@@ -59,7 +62,9 @@ export default function GuidelineCard({
           <div style={styles.dateView}>
             <Chip
               icon={<DateRangeIcon />}
-              label={new Date(guideline.created_at).toDateString()}
+              label={moment(guideline.created_at).format(
+                "ddd, Do MMM YYYY, H:mm"
+              )}
             />
           </div>
           {showRemove && (

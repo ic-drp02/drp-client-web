@@ -1,19 +1,53 @@
 import React from "react";
 
-import { Card } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Card, CardActions, Button, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  card: {
-    backgroundColor: "#e5e5e5",
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-});
+import {
+  GetApp as GetAppIcon,
+  Visibility as VisibilityIcon,
+} from "@material-ui/icons";
 
-export default function FileCard() {
-  const styles = useStyles();
+export default function FileCard({ file }) {
+  const styles = {
+    attachment: {
+      backgroundColor: "#2f80ed",
+      color: "white",
+      maxWidth: 500,
+      marginBottom: 15,
+    },
+    button: {
+      color: "white",
+    },
+    name: {
+      padding: 10,
+    },
+    rightAlign: {
+      display: "flex",
+      justifyContent: "flex-end",
+    },
+  };
 
-  return <Card elevation={0} className={styles.card}></Card>;
+  return (
+    <Card key={file.id} style={styles.attachment}>
+      <Typography style={styles.name}>{file.name}</Typography>
+      <CardActions style={styles.rightAlign}>
+        <Button
+          target="_blank"
+          href={"api/rawfiles/view/" + file.id}
+          startIcon={<VisibilityIcon />}
+          style={styles.button}
+        >
+          View
+        </Button>
+        <Button
+          target="_blank"
+          href={"api/rawfiles/download/" + file.id}
+          startIcon={<GetAppIcon />}
+          style={styles.button}
+        >
+          Download
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }

@@ -25,7 +25,7 @@ export default function GuidelinePickerDialog({
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
-    api.getPosts().then((res) => {
+    api.getGuidelines().then((res) => {
       setPosts(res.data);
       setFilteredPosts(res.data);
     });
