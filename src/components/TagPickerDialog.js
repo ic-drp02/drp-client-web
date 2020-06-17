@@ -81,7 +81,9 @@ function TagPickerDialogContent({ initialSelected, onSelectionChange }) {
 
   function onSearchTextChange(e) {
     // Find all tags that contain the search text
-    const matches = tags.filter((tag) => tag.name.includes(e.target.value));
+    const matches = tags.filter((tag) =>
+      tag.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
 
     setMatches(matches);
     setValue(e.target.value);
@@ -112,7 +114,8 @@ function TagPickerDialogContent({ initialSelected, onSelectionChange }) {
   // Only show button if the user has entered some text that
   // is not an exact match of an existing tag.
   const shouldShowCreateTagButton =
-    !!value && (matches.length !== 1 || matches[0].name !== value);
+    !!value &&
+    !matches.map((t) => t.name.toLowerCase()).includes(value.toLowerCase());
 
   return (
     <>
