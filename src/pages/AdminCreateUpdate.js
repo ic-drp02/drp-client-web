@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Add as AddIcon } from "@material-ui/icons";
@@ -16,6 +16,7 @@ import RichTextEditor from "../components/RichTextEditor";
 import TagPickerDialog from "../components/TagPickerDialog";
 import FilePickerDialog from "../components/FilePickerDialog";
 import GuidelinePickerDialog from "../components/GuidelinePickerDialog";
+import QuestionPickerDialog from "../components/QuestionPickerDialog";
 import GuidelineCard from "../components/GuidelineCard";
 import SnackbarContext from "../SnackbarContext";
 
@@ -42,6 +43,7 @@ export default function AdminCreateUpdate() {
     tags: [],
     files: [],
     names: [],
+    resolves: [],
   });
   const [loading, setLoading] = useState(false);
   const [showTagPicker, setShowTagPicker] = useState(false);
@@ -49,9 +51,17 @@ export default function AdminCreateUpdate() {
   const [guideline, setGuideline] = useState(false);
   const [supersedes, setSupersedes] = useState(null);
   const [guidelinePicker, setGuidelinePicker] = useState(false);
+  const [showQuestionPicker, setShowQuestionPicker] = useState(false);
+  const [questions, setQuestions] = useState([]);
 
   const snackbar = useContext(SnackbarContext);
   const history = useHistory();
+
+  useEffect(() => {
+    api.getQuestions().then((res) => {
+      setQuestions(res.data.filter((q) => !q.resolved));
+    });
+  }, []);
 
   const handleGuidelineChange = () => {
     setGuideline(!guideline);
@@ -85,6 +95,7 @@ export default function AdminCreateUpdate() {
       is_guideline: guideline,
       updates: supersedes ? supersedes.id : undefined,
       tags: state.tags.map((t) => t.name),
+      resolves: state.resolves.map((r) => r.id),
     });
 
     if (res.success) {
@@ -269,6 +280,46 @@ export default function AdminCreateUpdate() {
             ) : (
               <></>
             )}
+          </Grid>
+
+          {/* Resolved questions picker button */}
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => setShowQuestionPicker(true)}
+            >
+              Choose resolved questions
+            </Button>
+          </Grid>
+
+          {/* Resolved questions picker */}
+          <QuestionPickerDialog
+            visible={showQuestionPicker}
+            questions={questions}
+            selected={state.resolves}
+            onDismiss={() => {
+              setShowQuestionPicker(false);
+            }}
+            onSelection={(question) => {
+              if (question.selected === true) {
+                setState({ ...state, resolves: [...state.resolves, question] });
+              } else {
+                setState({
+                  ...state,
+                  resolves: state.resolves.filter((q) => q.id !== question.id),
+                });
+              }
+            }}
+          ></QuestionPickerDialog>
+
+          {/* Resolved questions view */}
+          <Grid item>
+            <Typography style={{ marginBottom: 15 }}>
+              This post will resolve {state.resolves.length} question
+              {state.resolves.length === 1 ? "" : "s"}.
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
