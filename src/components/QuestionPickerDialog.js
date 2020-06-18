@@ -27,7 +27,6 @@ export default function QuestionPickerDialog({
 }) {
   const [selectedQuestions, setSelectedQuestions] = useState(selected);
   const [shownQuestions, setShownQuestions] = useState(questions);
-  console.warn(selectedQuestions);
 
   useEffect(() => {
     setShownQuestions(questions);
